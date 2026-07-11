@@ -1,0 +1,473 @@
+/* Custom CSS Variables for Corporate Aesthetic */
+:root {
+    --bg-base: #0a0f1d;
+    --bg-surface: #131a30;
+    --bg-card: #1c2646;
+    --accent-emerald: #10b981;
+    --accent-indigo: #6366f1;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --border-node: #2a3765;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Base Resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-stack);
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Master Layout Grid (Flawless Scaling setup) */
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
+}
+
+/* Sidebar Node Style (Flexbox Container) */
+.profile-card-node {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-node);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.avatar-wrapper {
+    background: rgba(16, 185, 129, 0.1);
+    border: 2px dashed var(--accent-emerald);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.terminal-avatar {
+    font-size: 2.5rem;
+    color: var(--accent-emerald);
+}
+
+.operator-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+}
+
+.operator-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 2rem;
+}
+
+.meta-specs-box {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+}
+
+.spec-row:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.spec-label { color: var(--text-secondary); }
+.spec-value { color: var(--text-primary); font-weight: 500; }
+
+.social-mesh {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: auto;
+}
+
+.mesh-link {
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    transition: color 0.2s ease;
+}
+
+.mesh-link:hover {
+    color: var(--accent-emerald);
+}
+
+/* Viewport Main Panel Layout */
+.viewport-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.view-header {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-node);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.view-header h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-icon { color: var(--accent-indigo); }
+.view-header p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+/* Operational Metrics Grid Mesh */
+.metrics-mesh {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.metric-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-node);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-indigo);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+}
+
+.card-icon-bar {
+    font-size: 1.8rem;
+    margin-bottom: 1.25rem;
+}
+
+.branch-icon { color: #60a5fa; }
+.database-icon { color: #f59e0b; }
+.blueprint-icon { color: #ec4899; }
+
+.metric-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem; }
+.metric-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; }
+
+/* Inventory Node (Flexbox System) */
+/* ==============================================================
+   PREMIUM INVENTORY NODE SYSTEM (Replica for Winning Edge)
+   ============================================================== */
+
+.inventory-node {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-node);
+    border-radius: 16px;
+    padding: 2.5rem 2rem; /* Enhanced Padding */
+}
+
+.inventory-node h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    letter-spacing: -0.01em;
+}
+
+.inventory-node h3 i {
+    color: var(--accent-emerald); /* Matched to profile accent */
+}
+
+/* Master Grid for Technical Assets (Fully Responsive) */
+.token-cloud {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 visual stacks per row */
+    gap: 2rem;
+}
+
+/* Base style for single asset stack */
+.inventory-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--bg-card); /* Secondary card background */
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+/* Unique Hover Effect to Stand Out */
+.inventory-stack:hover {
+    border-color: var(--accent-emerald);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.08);
+}
+
+.tech-label-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tech-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+}
+
+.percent-label {
+    font-size: 0.75rem;
+    color: var(--accent-emerald);
+    font-weight: 500;
+}
+
+/* Proficiency Bar Main Structure */
+.proficiency-node {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.05); /* Hidden bar color */
+    border-radius: 4px;
+    overflow: hidden; /* Clips the inner meter */
+    position: relative;
+}
+
+/* Proficiency Meter (The animated colored part) */
+.proficiency-meter {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-emerald), #22d3ee); /* Emerald to Aqua Gradient */
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 1s ease-in-out; /* Smooth load animation */
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); /* Subtle glow */
+}
+
+/* Set explicit proficiency values (Update these percentages based on your skill level) */
+.meter-php-laravel { width: 95%; }
+.meter-html5 { width: 90%; }
+.meter-css-grid { width: 85%; }
+.meter-js-es6 { width: 88%; }
+.meter-mysql { width: 92%; }
+.meter-software-arch { width: 80%; }
+
+/* ==============================================================
+   RESPONSIVE OVERRIDES FOR INVENTORY
+   ============================================================== */
+
+@media (max-width: 1024px) {
+    .token-cloud {
+        grid-template-columns: repeat(2, 1fr); /* 2 stacks on medium screens */
+    }
+}
+
+@media (max-width: 640px) {
+    .token-cloud {
+        grid-template-columns: 1fr; /* Single column for mobile */
+        gap: 1.25rem;
+    }
+    .inventory-node {
+        padding: 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   Responsive Control Breakpoints (Ensuring Flawless Scaling up to 4K)
+   ========================================================================== */
+
+/* Medium Devices (Tablets, Small Laptops) */
+@media (max-width: 1024px) {
+    .workspace-grid {
+        grid-template-columns: 1fr; /* Switch main structure to single column stack */
+    }
+    .metrics-mesh {
+        grid-template-columns: repeat(2, 1fr); /* Step down mesh to 2 columns */
+    }
+}
+
+/* Small Devices (Mobile Phones) */
+@media (max-width: 640px) {
+    body {
+        padding: 1rem;
+    }
+    .workspace-grid {
+        gap: 1rem;
+    }
+    .metrics-mesh {
+        grid-template-columns: 1fr; /* Single column card block layout */
+    }
+    .profile-card-node, .view-header, .metric-card, .inventory-node {
+        padding: 1.5rem 1rem; /* Compact layout grids */
+    }
+}
+
+/* ==============================================================
+   NEW EXECUTIVE HEADER STYLE
+   ============================================================== */
+.header-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-icon {
+    color: var(--accent-emerald) !important;
+}
+
+/* Premium Live Status Badge */
+.status-badge {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: var(--accent-emerald);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    letter-spacing: 0.03em;
+}
+
+/* Pulsing Green Dot Animation */
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-emerald);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: dot-pulse 1.6s infinite;
+}
+
+@keyframes dot-pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+/* ==============================================================
+   SIDEBAR HOLLOW FILLER & ALIGNMENT FIX
+   ============================================================== */
+
+/* Forces sidebar to stretch to match the grid height completely */
+.profile-card-node {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns content from top cleanly */
+}
+
+/* System Instance Logs Box */
+.system-logs-panel {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed var(--border-node);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: left;
+    margin-bottom: 2rem; /* Pushes social bar smoothly down */
+}
+
+.log-header {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.log-item {
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.text-emerald {
+    color: var(--accent-emerald);
+    font-size: 0.7rem;
+}
+
+/* Engineering Terminal Height Optimization */
+.view-header {
+    padding: 2.2rem 2rem; /* Slightly taller padding to perfectly map grid row alignment */
+}
+/* ==============================================================
+   ULTRA-PREMIUM DASHBOARD REFINEMENTS
+   ============================================================== */
+
+/* Icon color refinement */
+.header-icon {
+    color: #38bdf8 !important; /* Premium Cyber Sky Blue icon color */
+    font-size: 1.6rem;
+}
+
+/* Glassmorphism subtle layout glow for the containers */
+.profile-card-node, .view-header, .metric-card, .inventory-node {
+    background-color: var(--bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover effects for main action metrics blocks to impress the mentor */
+.metric-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12);
+}
+
+/* Smooth custom borders for the instances container */
+.system-logs-panel {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px dashed rgba(16, 185, 129, 0.3) !important;
+}
