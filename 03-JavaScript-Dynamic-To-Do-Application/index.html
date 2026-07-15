@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoreEngine | Enterprise Task Ledger</title>
+    <style>
+        :root {
+            --surface-gradient: linear-gradient(145deg, #0b0f17 0%, #111827 100%);
+            --matrix-card: rgba(22, 30, 49, 0.75);
+            --stroke-line: rgba(52, 211, 153, 0.15);
+            --font-prime: #f3f4f6;
+            --font-muted: #9ca3af;
+            --mint-emerald: #10b981;
+            --gold-amber: #f59e0b;
+            --crimson-edge: #f43f5e;
+            --system-indigo: #6366f1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--surface-gradient);
+            color: var(--font-prime);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        /* Unique Architecture Layout Container */
+        .nexus-viewport {
+            background: var(--matrix-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--stroke-line);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 580px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .nexus-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .nexus-header p {
+            color: var(--font-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Custom Real-time Analytics Dashboard Module */
+        .analytics-sub-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .metric-tile {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-tile .num {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--mint-emerald);
+        }
+
+        .metric-tile .label {
+            font-size: 11px;
+            color: var(--font-muted);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Transaction Input Segment */
+        .entry-system {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .composite-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .terminal-field {
+            flex: 1;
+            background: rgba(11, 15, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: var(--font-prime);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .terminal-field:focus {
+            border-color: var(--mint-emerald);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+        }
+
+        .selector-node {
+            background: rgba(11, 15, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 0 14px;
+            color: var(--font-prime);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .action-dispatch {
+            background: var(--mint-emerald);
+            color: #0b0f17;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+        }
+
+        .action-dispatch:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        /* Customized Navigation Filter Segment */
+        .filter-manifest {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 22px;
+            background: rgba(11, 15, 23, 0.4);
+            padding: 6px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .filter-trigger {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--font-muted);
+            padding: 8px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .filter-trigger.selected-state {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--mint-emerald);
+            font-weight: 700;
+        }
+
+        /* Core Ledger Data Presentation Grid */
+        .ledger-stream {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .ledger-stream::-webkit-scrollbar {
+            width: 4px;
+        }
+        .ledger-stream::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .nexus-row {
+            background: rgba(11, 15, 23, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: all 0.25s ease;
+        }
+
+        .nexus-row.reconciled {
+            opacity: 0.45;
+            background: rgba(11, 15, 23, 0.2);
+        }
+
+        .nexus-row.reconciled .data-label {
+            text-decoration: line-through;
+            color: var(--font-muted);
+        }
+
+        .nexus-left-pack {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+        }
+
+        .node-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .nexus-row.reconciled .node-checkbox {
+            background: var(--mint-emerald);
+            border-color: var(--mint-emerald);
+        }
+
+        .node-checkbox::after {
+            content: '✓';
+            color: #0b0f17;
+            font-size: 13px;
+            font-weight: 900;
+            display: none;
+        }
+
+        .nexus-row.reconciled .node-checkbox::after {
+            display: block;
+        }
+
+        .data-meta-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .data-label {
+            font-size: 15px;
+            letter-spacing: 0.2px;
+            word-break: break-all;
+        }
+
+        /* Professional Accent Tags */
+        .tag-token {
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: max-content;
+        }
+
+        .tag-token.work { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+        .tag-token.personal { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .tag-token.urgent { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+
+        .kill-trigger {
+            background: transparent;
+            border: none;
+            color: var(--font-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .kill-trigger:hover {
+            color: var(--crimson-edge);
+        }
+    </style>
+</head>
+<body>
+
+<div class="nexus-viewport">
+    <header class="nexus-header">
+        <h1>CoreEngine</h1>
+        <p>Enterprise Analytics Ledger</p>
+    </header>
+
+    <!-- Dynamic Real-time Counter Module -->
+    <section class="analytics-sub-grid">
+        <div class="metric-tile">
+            <div class="num" id="total-count">0</div>
+            <div class="label">Total Tasks</div>
+        </div>
+        <div class="metric-tile">
+            <div class="num" id="pending-count" style="color: var(--gold-amber);">0</div>
+            <div class="label">Pending</div>
+        </div>
+        <div class="metric-tile">
+            <div class="num" id="done-count" style="color: var(--mint-emerald);">0</div>
+            <div class="label">Completed</div>
+        </div>
+    </section>
+
+    <!-- Dynamic Registry Inputs -->
+    <section class="entry-system">
+        <div class="composite-row">
+            <input type="text" id="ledger-input" class="terminal-field" placeholder="Initialize a tracking sequence..." autocomplete="off">
+            <select id="ledger-tag" class="selector-node">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="urgent">Urgent</option>
+            </select>
+        </div>
+        <button class="action-dispatch" id="commit-btn">Execute Core Assignment</button>
+    </section>
+
+    <!-- Structural Navigation Switches -->
+    <nav class="filter-manifest" aria-label="Database Navigation">
+        <button class="filter-trigger selected-state" data-view="all">Master View</button>
+        <button class="filter-trigger" data-view="active">Active Sequence</button>
+        <button class="filter-trigger" data-view="done">Reconciled Log</button>
+    </nav>
+
+    <!-- Render Target Pipeline -->
+    <ul class="ledger-stream" id="ledger-container"></ul>
+</div>
+
+<!-- Protected Core Operational Script Architecture -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Memory State Node Layer
+        let records = JSON.parse(localStorage.getItem('core_engine_records')) || [];
+        let activeScope = 'all';
+
+        // Cache Interface Elements
+        const ledgerInput = document.getElementById('ledger-input');
+        const ledgerTag = document.getElementById('ledger-tag');
+        const commitBtn = document.getElementById('commit-btn');
+        const ledgerContainer = document.getElementById('ledger-container');
+        const viewSwitches = document.querySelectorAll('.filter-trigger');
+
+        // Analytics Selectors
+        const totalCountEl = document.getElementById('total-count');
+        const pendingCountEl = document.getElementById('pending-count');
+        const doneCountEl = document.getElementById('done-count');
+
+        // Hard Sync Local Memory Bank
+        const syncDataStore = () => {
+            localStorage.setItem('core_engine_records', JSON.stringify(records));
+            updateMetrics();
+        };
+
+        // Real-time Dashboard Update Engine
+        const updateMetrics = () => {
+            const total = records.length;
+            const completed = records.filter(r => r.reconciled).length;
+            const pending = total - completed;
+
+            totalCountEl.textContent = total;
+            pendingCountEl.textContent = pending;
+            doneCountEl.textContent = completed;
+        };
+
+        // Secure Encryption Layer Against Code Injection Attacks (XSS Protection)
+        const sanitizeInput = (rawString) => {
+            const buffer = document.createElement('div');
+            buffer.innerText = rawString;
+            return buffer.innerHTML;
+        };
+
+        // Render Output Stream
+        const processPipeline = () => {
+            ledgerContainer.innerHTML = '';
+
+            const isolatedStream = records.filter(record => {
+                if (activeScope === 'active') return !record.reconciled;
+                if (activeScope === 'done') return record.reconciled;
+                return true;
+            });
+
+            isolatedStream.forEach(record => {
+                const nodeRow = document.createElement('li');
+                nodeRow.className = `nexus-row ${record.reconciled ? 'reconciled' : ''}`;
+                nodeRow.dataset.uid = record.uid; // Store UID in dataset for event delegation
+
+                nodeRow.innerHTML = `
+                        <div class="nexus-left-pack">
+                            <div class="node-checkbox" role="checkbox" aria-checked="${record.reconciled}"></div>
+                            <div class="data-meta-stack">
+                                <span class="data-label">${sanitizeInput(record.payload)}</span>
+                                <span class="tag-token ${record.metaClass}">${record.metaClass}</span>
+                            </div>
+                        </div>
+                        <button class="kill-trigger" aria-label="Terminate row">&times;</button>
+                    `;
+                ledgerContainer.appendChild(nodeRow);
+            });
+        };
+
+        // Command Action: Dispatch Row
+        const registerSequence = () => {
+            const textValue = ledgerInput.value.trim();
+            const contextualTag = ledgerTag.value;
+
+            if (textValue === '') return;
+
+            const operationalBlock = {
+                uid: 'uid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+                payload: textValue,
+                metaClass: contextualTag,
+                reconciled: false
+            };
+
+            records.push(operationalBlock);
+            syncDataStore();
+            processPipeline();
+
+            ledgerInput.value = '';
+        };
+
+        // Event Delegation Pattern (Eliminates the Global Scope Reference Error)
+        ledgerContainer.addEventListener('click', (e) => {
+            const targetRow = e.target.closest('.nexus-row');
+            if (!targetRow) return;
+            const uid = targetRow.dataset.uid;
+
+            // Scenario 1: Toggle State Click
+            if (e.target.classList.contains('node-checkbox') || e.target.closest('.node-checkbox')) {
+                records = records.map(record => {
+                    if (record.uid === uid) {
+                        return { ...record, reconciled: !record.reconciled };
+                    }
+                    return record;
+                });
+                syncDataStore();
+                processPipeline();
+            }
+
+            // Scenario 2: Purge Click
+            if (e.target.classList.contains('kill-trigger')) {
+                records = records.filter(record => record.uid !== uid);
+                syncDataStore();
+                processPipeline();
+            }
+        });
+
+        // Hardware Listeners Configuration
+        commitBtn.addEventListener('click', registerSequence);
+        ledgerInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') registerSequence();
+        });
+
+        // Navigation State Changes Logic
+        viewSwitches.forEach(control => {
+            control.addEventListener('click', (event) => {
+                viewSwitches.forEach(btn => btn.classList.remove('selected-state'));
+                event.target.classList.add('selected-state');
+                activeScope = event.target.getAttribute('data-view');
+                processPipeline();
+            });
+        });
+
+        // Kickstart Execution Flow
+        updateMetrics();
+        processPipeline();
+    });
+</script>
+</body>
+</html>
