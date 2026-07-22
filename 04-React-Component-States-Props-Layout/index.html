@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoreEngine Suite | React Component States & Props Controller</title>
+
+    <!-- Modern Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- React Libraries & Babel Translator -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- External CSS Stylesheet Link -->
+    <link rel="stylesheet" href="./src/App.css" />
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Complete Inlined React Code (Babel Transpiled) -->
+<script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Component 1: Metrics Presentational Component
+    function MetricsGrid({ instances }) {
+        const totalCount = instances.length;
+        const activeCount = instances.filter(i => i.status === 'online').length;
+        const averageLoad = totalCount > 0
+            ? Math.round(instances.reduce((acc, curr) => acc + curr.load, 0) / totalCount)
+            : 0;
+
+        return (
+            <section className="metrics-grid">
+                <div className="metric-card">
+                    <span className="metric-val">{totalCount}</span>
+                    <span className="metric-lbl">Total Registered Nodes</span>
+                </div>
+                <div className="metric-card">
+                    <span className="metric-val text-green">{activeCount}</span>
+                    <span className="metric-lbl">Active Telemetry Pipes</span>
+                </div>
+                <div className="metric-card">
+                    <span className="metric-val text-indigo">{averageLoad}%</span>
+                    <span className="metric-lbl">Average Thread Load</span>
+                </div>
+            </section>
+        );
+    }
+
+    // Component 2: Instance Controller Component
+    function InstanceController({ id, name, status, load, category, onToggleStatus, onRemove }) {
+        const isOnline = status === 'online';
+
+        return (
+            <article className={`instance-card ${isOnline ? 'border-active' : 'border-inactive'}`}>
+                <div className="card-top">
+                    <span className={`category-tag ${category.toLowerCase()}`}>{category}</span>
+                    <button className="delete-btn" onClick={() => onRemove(id)}>&times;</button>
+                </div>
+
+                <div className="card-body">
+                    <h3 className="instance-title">{name}</h3>
+                    <div className="load-bar-wrapper">
+                        <div className="load-info">
+                            <span>Core Load:</span>
+                            <span className={load > 75 ? 'text-red' : isOnline ? 'text-green' : ''}>
+                  {isOnline ? `${load}%` : 'STANDBY'}
+                </span>
+                        </div>
+                        <div className="load-track">
+                            <div
+                                className="load-fill"
+                                style={{
+                                    width: isOnline ? `${load}%` : '0%',
+                                    backgroundColor: load > 75 ? 'var(--error-accent)' : 'var(--accent-primary)'
+                                }}
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="card-footer">
+            <span className="status-label">
+              <span className={`status-dot ${isOnline ? 'bg-green' : 'bg-gray'}`}></span>
+                {status.toUpperCase()}
+            </span>
+                    <button
+                        className={`toggle-action-btn ${isOnline ? 'btn-danger' : 'btn-success'}`}
+                        onClick={() => onToggleStatus(id)}
+                    >
+                        {isOnline ? 'Shutdown' : 'Spin Up'}
+                    </button>
+                </div>
+            </article>
+        );
+    }
+
+    // Main App Component
+    function App() {
+        const [instances, setInstances] = useState([
+            { id: 'inst-101', name: 'Paint Canvas Live', status: 'online', load: 34, category: 'App' },
+            { id: 'inst-102', name: 'Blood Bank DB', status: 'online', load: 12, category: 'Module' },
+            { id: 'inst-103', name: 'Smart Hostel API', status: 'offline', load: 0, category: 'Node' },
+        ]);
+
+        const [activeTab, setActiveTab] = useState('all');
+
+        useEffect(() => {
+            const telemetryInterval = setInterval(() => {
+                setInstances(prevInstances =>
+                    prevInstances.map(inst => {
+                        if (inst.status === 'online') {
+                            const variance = Math.floor(Math.random() * 11) - 5;
+                            const newLoad = Math.max(5, Math.min(95, inst.load + variance));
+                            return { ...inst, load: newLoad };
+                        }
+                        return inst;
+                    })
+                );
+            }, 3000);
+
+            return () => clearInterval(telemetryInterval);
+        }, []);
+
+        const toggleInstanceStatus = (id) => {
+            setInstances(prevInstances =>
+                prevInstances.map(inst => {
+                    if (inst.id === id) {
+                        const turningOnline = inst.status === 'offline';
+                        return {
+                            ...inst,
+                            status: turningOnline ? 'online' : 'offline',
+                            load: turningOnline ? 25 : 0
+                        };
+                    }
+                    return inst;
+                })
+            );
+        };
+
+        const removeInstance = (id) => {
+            setInstances(prevInstances => prevInstances.filter(inst => inst.id !== id));
+        };
+
+        const filteredInstances = instances.filter(inst => {
+            if (activeTab === 'online') return inst.status === 'online';
+            if (activeTab === 'offline') return inst.status === 'offline';
+            return true;
+        });
+
+        return (
+            <div className="telemetry-wrapper">
+                <main className="dashboard-container">
+                    <header className="dashboard-header">
+                        <div className="brand-group">
+                            <span className="live-pulse"></span>
+                            <h1>CoreEngine Suite</h1>
+                        </div>
+                        <p className="subtitle">Real-Time React Component State & Prop Controller</p>
+                    </header>
+
+                    <MetricsGrid instances={instances} />
+
+                    <nav className="filter-nav">
+                        {['all', 'online', 'offline'].map(tab => (
+                            <button
+                                key={tab}
+                                className={`tab-trigger ${activeTab === tab ? 'active-tab' : ''}`}
+                                onClick={() => setActiveTab(tab)}
+                            >
+                                {tab.toUpperCase()}
+                            </button>
+                        ))}
+                    </nav>
+
+                    <section className="instance-workspace">
+                        <h2>Active Hardware Pipelines</h2>
+                        {filteredInstances.length > 0 ? (
+                            <div className="instance-grid">
+                                {filteredInstances.map(inst => (
+                                    <InstanceController
+                                        key={inst.id}
+                                        id={inst.id}
+                                        name={inst.name}
+                                        status={inst.status}
+                                        load={inst.load}
+                                        category={inst.category}
+                                        onToggleStatus={toggleInstanceStatus}
+                                        onRemove={removeInstance}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="empty-state">
+                                No active hardware pipelines match the selected filter.
+                            </div>
+                        )}
+                    </section>
+                </main>
+            </div>
+        );
+    }
+
+    // Render App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+</script>
+</body>
+</html>
